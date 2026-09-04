@@ -85,8 +85,43 @@ Text-to-Speech
   ↓
 User
 
-Current Status
+### Current Status
 
-The basic voice-based AI conversation loop is working.
+JARVIS can now hold a basic voice conversation with GPT while using stored user information from `memory.json`.
 
-The next major step is to connect JARVIS's existing memory system to the AI gateway so that GPT can use relevant information from memory.json when responding
+The next step is to improve how JARVIS manages and uses conversation memory.
+
+## Milestone: Memory-Enabled Voice Conversation
+
+**Date:** September 4, 2026
+
+JARVIS successfully used stored memory while having a voice conversation.
+
+### What was completed
+
+- Connected `memory.json` to the AI gateway.
+- Updated `ai.py` to provide stored memory to GPT.
+- Connected the existing JARVIS personality and memory together.
+- Tested memory retrieval independently.
+- Successfully tested memory retrieval through the microphone.
+- JARVIS can now:
+  - Listen to the user.
+  - Access relevant stored information.
+  - Use that information when generating a response.
+  - Speak the response aloud.
+
+### Example
+
+The user asked:
+
+> "What is my name?"
+
+JARVIS retrieved the stored name from `memory.json` and responded:
+
+> "Your name is Aadith Abhimanyu S, sir."
+
+### Current Status
+
+JARVIS can now hold a basic voice conversation with GPT while using stored user information from its local memory.
+
+The next step is to improve how JARVIS manages and uses conversation memory.
