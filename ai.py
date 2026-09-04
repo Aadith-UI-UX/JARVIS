@@ -23,7 +23,14 @@ with open("personality.txt", "r", encoding="utf-8") as file:
 
 def ask_ai(command, memory):
 
-    memory_text = json.dumps(memory, indent=2)
+    recent_conversation = memory["conversation"][-10:]
+
+    memory_for_ai = {
+        "user": memory["user"],
+        "conversation": recent_conversation
+    }
+
+    memory_text = json.dumps(memory_for_ai, indent=2)
 
     prompt = f"""
 You are JARVIS, a personal AI assistant.

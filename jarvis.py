@@ -134,17 +134,6 @@ while True:
 
 
         # -----------------------------
-        # Save conversation
-        # -----------------------------
-
-        memory["conversation"].append({
-            "user": corrected_text
-        })
-
-        save_memory()
-
-
-        # -----------------------------
         # Goodbye / exit
         # -----------------------------
 
@@ -206,6 +195,13 @@ while True:
             response = ask_ai(command, memory)
 
             speak(response)
+
+            memory["conversation"].append({
+                "user": corrected_text,
+                "jarvis": response
+            })
+
+            save_memory()
 
 
     except sr.UnknownValueError:
