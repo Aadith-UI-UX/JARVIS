@@ -39,3 +39,54 @@ Topics currently being explored:
 JARVIS is actively being developed.
 
 More capabilities will be added as I learn and build.
+
+## Milestone: First GPT-Powered Voice Conversation
+
+**Date:** September 4, 2026
+
+JARVIS successfully completed its first full AI-powered voice conversation.
+
+### What was completed
+
+- Added the OpenAI Python SDK.
+- Connected JARVIS to the OpenAI API through `ai.py`.
+- Created the `ask_ai()` AI gateway function.
+- Connected `personality.txt` to the AI gateway.
+- Successfully tested GPT independently.
+- Connected the AI response back to JARVIS.
+- Successfully tested the complete voice pipeline.
+- JARVIS can now:
+  - Listen to the user through the microphone.
+  - Convert speech to text.
+  - Send the request to GPT.
+  - Generate a response using the JARVIS personality.
+  - Speak the response aloud.
+
+### Current Architecture
+
+```text
+User
+  ↓
+Speech Recognition
+  ↓
+jarvis.py
+  ↓
+ai.py
+  ↓
+OpenAI API
+  ↓
+GPT
+  ↓
+JARVIS Personality
+  ↓
+jarvis.py
+  ↓
+Text-to-Speech
+  ↓
+User
+
+Current Status
+
+The basic voice-based AI conversation loop is working.
+
+The next major step is to connect JARVIS's existing memory system to the AI gateway so that GPT can use relevant information from memory.json when responding
