@@ -125,3 +125,35 @@ JARVIS retrieved the stored name from `memory.json` and responded:
 JARVIS can now hold a basic voice conversation with GPT while using stored user information from its local memory.
 
 The next step is to improve how JARVIS manages and uses conversation memory.
+
+## Milestone: First Memory Retrieval Prototype
+
+**Date:** September 5, 2026
+
+JARVIS's memory system was improved with a first-generation memory retrieval prototype.
+
+### What was completed
+
+- Created a dedicated conversation memory retrieval function.
+- Added common-word filtering.
+- Added basic relevance scoring based on shared words.
+- Ranked matching conversations by relevance score.
+- Combined relevant memories with recent conversation context.
+- Removed duplicate conversation entries.
+- Connected the retrieval system to the GPT gateway.
+- Tested memory retrieval independently.
+- Successfully tested the system through JARVIS's voice interface.
+
+### Important Learning
+
+The prototype showed that conversation history and permanent user facts should be treated differently.
+
+For example, JARVIS already stores the user's name as permanent user memory. Searching old conversations for the user's name can produce duplicate or conflicting results.
+
+The current retrieval system is therefore considered a prototype and will be improved in a future version.
+
+### Current Status
+
+JARVIS now has a basic memory retrieval layer that can select recent and potentially relevant conversation history before sending context to GPT.
+
+Future versions may use more advanced semantic memory retrieval instead of simple word-based matching.
