@@ -95,8 +95,8 @@ def ask_ai(command, memory):
     relevant_conversation = retrieve_relevant_memory(command, memory)
 
     memory_for_ai = {
-        "user": memory["user"],
-        "conversation": relevant_conversation
+        "permanent_user_memory": memory["user"],
+        "conversation_context": relevant_conversation
     }
 
     memory_text = json.dumps(memory_for_ai, indent=2)
@@ -116,7 +116,10 @@ The user said:
 
 {command}
 
-Use the stored memory when it is relevant.
+Permanent user memory is the source of truth for stable facts about the user.
+Conversation context provides additional context and history.
+Use conversation context when it is relevant to the user's request.
+If conversation context conflicts with permanent user memory, trust the permanent user memory.
 Do not invent memories or facts that are not present in the memory.
 Respond as JARVIS according to the personality specification.
 """

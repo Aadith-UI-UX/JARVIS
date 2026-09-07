@@ -157,3 +157,47 @@ The current retrieval system is therefore considered a prototype and will be imp
 JARVIS now has a basic memory retrieval layer that can select recent and potentially relevant conversation history before sending context to GPT.
 
 Future versions may use more advanced semantic memory retrieval instead of simple word-based matching.
+
+## Milestone: Memory Hierarchy
+
+**Date:** September 7, 2026
+
+JARVIS's memory system was improved by defining a hierarchy between permanent user memory and conversation memory.
+
+### What was completed
+
+- Separated permanent user memory from retrieved conversation context.
+- Defined permanent user memory as the source of truth for stable user facts.
+- Defined conversation memory as contextual information rather than authoritative information.
+- Added an explicit memory hierarchy rule to the GPT prompt.
+- Tested the system using conflicting memories.
+- Verified that permanent user memory remains authoritative when conversation history contains conflicting information.
+- Tested different phrasings of the same request, including:
+  - "What is my name?"
+  - "Tell me what you call me."
+  - "Who am I?"
+
+### Important Learning
+
+JARVIS should provide GPT with both permanent memory and relevant conversation context when appropriate.
+
+The Python layer manages and retrieves memory, while GPT handles natural-language understanding and response generation.
+
+This allows JARVIS to understand differently phrased requests without requiring a separate hard-coded rule for every possible way the user can ask something.
+
+### Current Limitation
+
+The current conversation retrieval system is still based on simple word matching.
+
+It can retrieve conversations containing related words, but it does not yet understand semantic similarity.
+
+For example, requests such as "What is my name?" and "Who am I?" can have the same meaning to a human while producing different retrieval behavior.
+
+Future versions may improve conversation retrieval using semantic memory techniques.
+
+### Current Status
+
+JARVIS now has a basic memory hierarchy in which permanent user memory is treated as authoritative while retrieved conversation history provides additional context.
+
+The hierarchy has been tested successfully with conflicting memory and multiple user phrasings.
+
