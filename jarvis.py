@@ -194,19 +194,23 @@ while True:
 
             response = ask_ai(command, memory)
 
-            speak(response)
+            if response == "ERROR":
+                speak("I'm unable to reach my AI service at the moment, sir.")
 
-            memory["conversation"].append({
-                "user": corrected_text,
-                "jarvis": response
-            })
+            else:
+                speak(response)
 
-            save_memory()
+                memory["conversation"].append({
+                    "user": corrected_text,
+                    "jarvis": response
+                })
+
+                save_memory()
 
 
     except sr.UnknownValueError:
 
-        print("JARVIS: I didn't understand that.")
+        speak("I didn't understand that, sir")
 
 
     except sr.RequestError:

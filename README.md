@@ -201,3 +201,37 @@ JARVIS now has a basic memory hierarchy in which permanent user memory is treate
 
 The hierarchy has been tested successfully with conflicting memory and multiple user phrasings.
 
+## Milestone: Reliability and Error Handling
+
+**Date:** September 10, 2026
+
+JARVIS's reliability was improved by adding basic error handling to both the speech recognition and AI communication layers.
+
+### What was completed
+
+- Added handling for speech recognition failures using `speech_recognition.UnknownValueError`.
+- JARVIS now responds politely when it cannot understand spoken input.
+- Added OpenAI API error handling using `OpenAIError`.
+- JARVIS no longer crashes when the AI service cannot be reached.
+- Added a user-friendly spoken response when the AI service fails.
+- Prevented failed AI responses from being stored in conversation memory.
+- Tested both speech-recognition failure and AI/API failure.
+- Verified that JARVIS continues running after these failures.
+- Restored and verified the normal GPT connection after testing.
+
+### Important Learning
+
+Different parts of JARVIS are responsible for different types of errors.
+
+The speech layer handles problems understanding the user's voice, while `ai.py` handles technical failures from the AI service.
+
+The main program, `jarvis.py`, is responsible for turning those failures into user-facing responses.
+
+### Current Status
+
+JARVIS can now gracefully handle two important failure cases:
+
+1. Speech recognition failure.
+2. AI/API communication failure.
+
+Instead of crashing, JARVIS informs the user and continues operating.

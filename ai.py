@@ -3,7 +3,7 @@
 # -----------------------------
 
 
-from openai import OpenAI
+from openai import OpenAI, OpenAIError
 import json
 
 COMMON_WORDS = {
@@ -123,10 +123,13 @@ If conversation context conflicts with permanent user memory, trust the permanen
 Do not invent memories or facts that are not present in the memory.
 Respond as JARVIS according to the personality specification.
 """
+    try:
+        response = client.responses.create(
+            model="gpt-5.6-luna",
+            input=prompt
+        )
 
-    response = client.responses.create(
-        model="gpt-5.6-luna",
-        input=prompt
-    )
+    except OpenAIError:
+        return "ERROR"
 
     return response.output_text
