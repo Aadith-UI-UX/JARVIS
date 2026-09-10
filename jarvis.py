@@ -2,9 +2,8 @@ import json
 import os
 import speech_recognition as sr
 import pyttsx3
-
-from brain import think
 from ai import ask_ai
+from datetime import datetime
 
 # -----------------------------
 # Load JARVIS personality
@@ -75,7 +74,14 @@ def speak(text):
 # Start JARVIS
 # -----------------------------
 
-speak("Good evening, sir. JARVIS is online.")
+hour = datetime.now().hour
+
+if hour < 12:
+    speak("Good morning, sir. JARVIS is online.")
+elif 12 <= hour < 17:
+    speak("Good afternoon, sir. JARVIS is online.")
+else:
+    speak("Good evening, sir. JARVIS is online.")
 
 
 # -----------------------------
