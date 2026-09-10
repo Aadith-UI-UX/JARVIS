@@ -61,11 +61,17 @@ recognizer = sr.Recognizer()
 # JARVIS voice
 # -----------------------------
 
+def clean_for_speech(text):
+    text = text.replace("#","")
+    return text
+
 def speak(text):
     print("JARVIS:", text)
 
+    speech_text = clean_for_speech(text)
+
     jarvis = pyttsx3.init()
-    jarvis.say(text)
+    jarvis.say(speech_text)
     jarvis.runAndWait()
     jarvis.stop()
 
@@ -74,154 +80,156 @@ def speak(text):
 # Start JARVIS
 # -----------------------------
 
-hour = datetime.now().hour
+if __name__ == "__main__":
 
-if hour < 12:
-    speak("Good morning, sir. JARVIS is online.")
-elif 12 <= hour < 17:
-    speak("Good afternoon, sir. JARVIS is online.")
-else:
-    speak("Good evening, sir. JARVIS is online.")
+    hour = datetime.now().hour
 
-
-# -----------------------------
-# Main conversation loop
-# -----------------------------
-
-while True:
-
-    with sr.Microphone() as source:
-
-        print("JARVIS: Calibrating microphone...")
-        recognizer.adjust_for_ambient_noise(source, duration=1)
-
-        print("Listening...")
-        audio = recognizer.listen(source)
-
-    try:
-
-        # -----------------------------
-        # Convert speech to text
-        # -----------------------------
-
-        text = recognizer.recognize_google(audio)
-
-        print("You:", text)
+    if hour < 12:
+        speak("Good morning, sir. JARVIS is online.")
+    elif 12 <= hour < 17:
+        speak("Good afternoon, sir. JARVIS is online.")
+    else:
+        speak("Good evening, sir. JARVIS is online.")
 
 
-        # -----------------------------
-        # Correct common speech errors
-        # -----------------------------
+    # -----------------------------
+    # Main conversation loop
+    # -----------------------------
 
-        corrections = {
-            "Aditya Abhimanyu s": "Aadith Abhimanyu S",
-            "Aditya Abhimanyu as": "Aadith Abhimanyu S",
-            "Aditya Abhimanyu": "Aadith Abhimanyu",
-            "Aditya": "Aadith",
-            "aditya abhimanyu s": "Aadith Abhimanyu S",
-            "aditya abhimanyu as": "Aadith Abhimanyu S",
-            "aditya abhimanyu": "Aadith Abhimanyu",
-            "aditya": "Aadith"
-        }
+    while True:
 
-        corrected_text = text
+        with sr.Microphone() as source:
 
-        for wrong, right in corrections.items():
-            corrected_text = corrected_text.replace(wrong, right)
+            print("JARVIS: Calibrating microphone...")
+            recognizer.adjust_for_ambient_noise(source, duration=1)
 
-        print("JARVIS understood:", corrected_text)
+            print("Listening...")
+            audio = recognizer.listen(source)
 
+        try:
 
-        # -----------------------------
-        # Normalize command
-        # -----------------------------
+            # -----------------------------
+            # Convert speech to text
+            # -----------------------------
 
-        command = " ".join(corrected_text.lower().split())
+            text = recognizer.recognize_google(audio)
+
+            print("You:", text)
 
 
-        # -----------------------------
-        # Goodbye / exit
-        # -----------------------------
+            # -----------------------------
+            # Correct common speech errors
+            # -----------------------------
 
-        if (
-            "goodbye" in command
-            or "good bye" in command
-            or command == "exit"
-            or command == "quit"
-            or command == "shutdown"
-        ):
-            speak("Goodbye, sir.")
-            break
+            corrections = {
+                "Aditya Abhimanyu s": "Aadith Abhimanyu S",
+                "Aditya Abhimanyu as": "Aadith Abhimanyu S",
+                "Aditya Abhimanyu": "Aadith Abhimanyu",
+                "Aditya": "Aadith",
+                "aditya abhimanyu s": "Aadith Abhimanyu S",
+                "aditya abhimanyu as": "Aadith Abhimanyu S",
+                "aditya abhimanyu": "Aadith Abhimanyu",
+                "aditya": "Aadith"
+            }
+
+            corrected_text = text
+
+            for wrong, right in corrections.items():
+                corrected_text = corrected_text.replace(wrong, right)
+
+            print("JARVIS understood:", corrected_text)
 
 
-        # -----------------------------
-        # Remember user's name
-        # -----------------------------
+            # -----------------------------
+            # Normalize command
+            # -----------------------------
 
-        elif "my name is" in command:
+            command = " ".join(corrected_text.lower().split())
 
-            name = corrected_text.split("my name is", 1)[1].strip()
 
-            if name:
+            # -----------------------------
+            # Goodbye / exit
+            # -----------------------------
 
-                if "name" in memory["user"]:
+            if (
+                "goodbye" in command
+                or "good bye" in command
+                or command == "exit"
+                or command == "quit"
+                or command == "shutdown"
+            ):
+                speak("Goodbye, sir.")
+                break
 
-                    existing_name = memory["user"]["name"]
 
-                    if name.lower() == existing_name.lower():
+            # -----------------------------
+            # Remember user's name
+            # -----------------------------
 
-                        speak(
-                            f"Yes, sir. I remember you as "
-                            f"{existing_name}."
-                        )
+            elif "my name is" in command:
+
+                name = corrected_text.split("my name is", 1)[1].strip()
+
+                if name:
+
+                    if "name" in memory["user"]:
+
+                        existing_name = memory["user"]["name"]
+
+                        if name.lower() == existing_name.lower():
+
+                            speak(
+                                f"Yes, sir. I remember you as "
+                                f"{existing_name}."
+                            )
+
+                        else:
+
+                            speak(
+                                "I already have your name stored, sir."
+                            )
 
                     else:
 
+                        memory["user"]["name"] = name
+                        save_memory()
+
                         speak(
-                            "I already have your name stored, sir."
+                            f"I'll remember that, sir. "
+                            f"Your name is {name}."
                         )
 
-                else:
 
-                    memory["user"]["name"] = name
-                    save_memory()
-
-                    speak(
-                        f"I'll remember that, sir. "
-                        f"Your name is {name}."
-                    )
-
-
-        # -----------------------------
-        # JARVIS Brain
-        # -----------------------------
-
-        else:
-
-            response = ask_ai(command, memory)
-
-            if response == "ERROR":
-                speak("I'm unable to reach my AI service at the moment, sir.")
+            # -----------------------------
+            # JARVIS Brain
+            # -----------------------------
 
             else:
-                speak(response)
 
-                memory["conversation"].append({
-                    "user": corrected_text,
-                    "jarvis": response
-                })
+                response = ask_ai(command, memory)
 
-                save_memory()
+                if response == "ERROR":
+                    speak("I'm unable to reach my AI service at the moment, sir.")
+
+                else:
+                    speak(response)
+
+                    memory["conversation"].append({
+                        "user": corrected_text,
+                        "jarvis": response
+                    })
+
+                    save_memory()
 
 
-    except sr.UnknownValueError:
+        except sr.UnknownValueError:
 
-        speak("I didn't understand that, sir")
+            speak("I didn't understand that, sir")
 
 
-    except sr.RequestError:
+        except sr.RequestError:
 
-        speak(
-            "I am having trouble connecting "
-            "to the speech recognition service."
-        )
+            speak(
+                "I am having trouble connecting "
+                "to the speech recognition service."
+            )
