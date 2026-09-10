@@ -235,3 +235,67 @@ JARVIS can now gracefully handle two important failure cases:
 2. AI/API communication failure.
 
 Instead of crashing, JARVIS informs the user and continues operating.
+
+## Milestone: Architecture Cleanup
+
+**Date:** September 10, 2026
+
+JARVIS's program structure was improved by separating reusable functions from the code that starts and runs the assistant.
+
+### What was completed
+
+- Added a protected main execution block using `if __name__ == "__main__":`.
+- Prevented the JARVIS microphone loop from starting when `jarvis.py` is imported.
+- Made reusable functions such as `clean_for_speech()` available without launching JARVIS.
+- Created a temporary architecture test to verify the behavior.
+- Confirmed that importing a JARVIS function does not start the assistant.
+
+### Important Learning
+
+Python files can contain reusable functions as well as executable program code.
+
+The `if __name__ == "__main__":` pattern allows JARVIS to run its main program only when `jarvis.py` is launched directly, while still allowing its functions to be imported and reused elsewhere.
+
+### Current Status
+
+JARVIS's core program structure is now cleaner and more modular, providing a stronger foundation for future development.
+
+## Milestone: Final v0.1 Audit
+
+**Date:** September 10, 2026
+
+JARVIS completed a final technical audit covering its core v0.1 functionality.
+
+### Audit Results
+
+- Startup and shutdown — PASS
+- Speech recognition failure handling — PASS
+- GPT communication — PASS
+- JARVIS personality — PASS
+- Permanent user memory — PASS
+- Conversation memory and retrieval — PASS
+- Speech output — PASS
+- Architecture isolation — PASS
+- Git repository integrity — PASS
+
+### Final v0.1 Status
+
+All planned core v0.1 functionality was tested successfully.
+
+JARVIS can now:
+
+- Interact through voice.
+- Communicate with GPT.
+- Follow its personality specification.
+- Remember basic permanent user information.
+- Store and retrieve conversation history.
+- Retrieve relevant previous conversations.
+- Handle basic speech-recognition and AI-service failures without crashing.
+- Convert its AI responses into speech.
+- Run with a cleaner, modular program structure.
+
+### v0.1 Completion
+
+JARVIS v0.1 is considered technically complete.
+
+Future development will focus on more intelligent memory, improved memory organization, additional capabilities, and external tools. These features are intentionally reserved for later versions rather than expanding the v0.1 scope.
