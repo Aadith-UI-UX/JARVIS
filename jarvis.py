@@ -55,6 +55,7 @@ def save_memory():
 # -----------------------------
 
 recognizer = sr.Recognizer()
+recognizer.pause_threshold = 1.0
 
 
 # -----------------------------
