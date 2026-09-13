@@ -63,8 +63,9 @@ recognizer.pause_threshold = 1.0
 # -----------------------------
 
 def clean_for_speech(text):
-    text = text.replace("#","")
+    text = text.replace("#", "")
     return text
+
 
 def speak(text):
     print("JARVIS:", text)
@@ -94,15 +95,22 @@ if __name__ == "__main__":
 
 
     # -----------------------------
+    # Calibrate microphone once
+    # -----------------------------
+
+    with sr.Microphone() as source:
+
+        print("JARVIS: Calibrating microphone...")
+        recognizer.adjust_for_ambient_noise(source, duration=1)
+
+
+    # -----------------------------
     # Main conversation loop
     # -----------------------------
 
     while True:
 
         with sr.Microphone() as source:
-
-            print("JARVIS: Calibrating microphone...")
-            recognizer.adjust_for_ambient_noise(source, duration=1)
 
             print("Listening...")
             audio = recognizer.listen(source)
